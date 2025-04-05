@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManagementApi.Models;
 using TaskManagementApi.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TaskManagementApi.Controllers;
 
-[Route("api/[controller]")]
+[Authorize]
 [ApiController]
+[Route("api/[controller]")]
 public class ProjectController : ControllerBase
 {
     private readonly IProjectService _projectService;
