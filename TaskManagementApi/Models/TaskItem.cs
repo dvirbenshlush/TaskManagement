@@ -1,4 +1,6 @@
-﻿namespace TaskManagementApi.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace TaskManagementApi.Models;
 
 public class TaskItem
 {
@@ -8,5 +10,6 @@ public class TaskItem
     public string Status { get; set; } = "todo";
 
     public int ProjectId { get; set; }
+    [JsonIgnore]
     public Project? Project { get; set; }
 }
