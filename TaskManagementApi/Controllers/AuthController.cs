@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaskManagementApi.Models;
 using TaskManagementApi.Services;
-using Microsoft.Extensions.Logging;
 
 namespace TaskManagementApi.Controllers;
 

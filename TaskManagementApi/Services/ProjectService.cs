@@ -1,6 +1,5 @@
 ﻿using TaskManagementApi.Models;
 using TaskManagementApi.Repositories;
-using Microsoft.Extensions.Logging;
 
 namespace TaskManagementApi.Services;
 

@@ -1,7 +1,5 @@
 ﻿using TaskManagementApi.Models;
 using TaskManagementApi.Repositories;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TaskManagementApi.Services;
 
