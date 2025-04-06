@@ -3,6 +3,7 @@ using TaskManagementApi.Models;
 using TaskManagementApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TaskManagementApi.Controllers;
 
@@ -21,10 +22,10 @@ public class ProjectController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Project>>> GetAll()
+    public async Task<ActionResult<IEnumerable<Project>>> GetPagedAsync(int page = 1, int pageSize = 3)
     {
         _logger.LogInformation("Getting all projects");
-        var projects = await _projectService.GetAllAsync();
+        var projects = await _projectService.GetPagedAsync(page, pageSize);
         _logger.LogInformation("Retrieved {Count} projects", projects.Count());
         return Ok(projects);
     }

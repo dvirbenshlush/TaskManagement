@@ -3,6 +3,7 @@ using TaskManagementApi.Models;
 using TaskManagementApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TaskManagementApi.Controllers;
 
@@ -21,10 +22,10 @@ public class TaskController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TaskItem>>> GetAll()
+    public async Task<ActionResult<IEnumerable<TaskItem>>> GetPagedAsync(int page = 1, int pageSize = 3)
     {
         _logger.LogInformation("Getting all tasks");
-        var tasks = await _taskService.GetAllAsync();
+        var tasks = await _taskService.GetPagedAsync(page, pageSize);
         _logger.LogInformation("Retrieved {Count} tasks", tasks.Count());
         return Ok(tasks);
     }

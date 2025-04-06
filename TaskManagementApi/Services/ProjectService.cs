@@ -15,10 +15,10 @@ public class ProjectService : IProjectService
         _logger = logger;
     }
 
-    public async Task<IEnumerable<Project>> GetAllAsync()
+    public async Task<IEnumerable<Project>> GetPagedAsync(int page, int pageSize)
     {
         _logger.LogInformation("Fetching all projects");
-        var result = await _projectRepository.GetAllAsync();
+        var result = await _projectRepository.GetPagedAsync(page, pageSize);
         _logger.LogInformation("Retrieved {Count} projects", result.Count());
         return result;
     }

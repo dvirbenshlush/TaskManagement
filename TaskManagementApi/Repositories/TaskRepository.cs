@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaskManagementApi.Models;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TaskManagementApi.Repositories;
 
@@ -15,10 +16,13 @@ public class TaskRepository : ITaskRepository
         _logger = logger;
     }
 
-    public async Task<IEnumerable<TaskItem>> GetAllAsync()
+    public async Task<IEnumerable<TaskItem>> GetPagedAsync(int page, int pageSize)
     {
         _logger.LogInformation("Fetching all tasks from database");
-        var result = await _context.Tasks.ToListAsync();
+        var result = await _context.Tasks
+               .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToListAsync();
         _logger.LogInformation("Fetched {Count} tasks", result.Count);
         return result;
     }

@@ -15,10 +15,13 @@ public class ProjectRepository : IProjectRepository
         _logger = logger;
     }
 
-    public async Task<IEnumerable<Project>> GetAllAsync()
+    public async Task<IEnumerable<Project>> GetPagedAsync(int page, int pageSize)
     {
         _logger.LogInformation("Fetching all projects from database");
-        var result = await _context.Projects.Include(p => p.Tasks).ToListAsync();
+        var result = await _context.Projects
+        .Include(p => p.Tasks).Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToListAsync();
         _logger.LogInformation("Fetched {Count} projects", result.Count);
         return result;
     }

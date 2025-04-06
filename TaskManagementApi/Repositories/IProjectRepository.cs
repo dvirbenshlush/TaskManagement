@@ -4,7 +4,7 @@ namespace TaskManagementApi.Repositories;
 
 public interface IProjectRepository
 {
-    Task<IEnumerable<Project>> GetAllAsync();
+    Task<IEnumerable<Project>> GetPagedAsync(int page, int pageSize);
     Task<Project?> GetByIdAsync(int id);
     Task<Project> CreateAsync(Project project);
     Task<bool> UpdateAsync(Project project);
