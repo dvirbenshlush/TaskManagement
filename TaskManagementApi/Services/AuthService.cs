@@ -3,7 +3,6 @@ using TaskManagementApi.Settings;
 using Microsoft.Extensions.Options;
 using Amazon.CognitoIdentityProvider;
 using Amazon.CognitoIdentityProvider.Model;
-using Microsoft.Extensions.Logging;
 
 namespace TaskManagementApi.Services;
 

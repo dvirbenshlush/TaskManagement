@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TaskManagementApi.Models;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using TaskManagementApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace TaskManagementApi.Repositories;
 

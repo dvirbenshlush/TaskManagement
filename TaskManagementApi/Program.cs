@@ -1,14 +1,12 @@
 using TaskManagementApi;
+using Microsoft.OpenApi.Models;
 using TaskManagementApi.Settings;
 using TaskManagementApi.Services;
-using TaskManagementApi.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using TaskManagementApi.Repositories;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Amazon.Extensions.NETCore.Setup;
-using AWS.Logger;
-using AWS.Logger.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -29,7 +27,11 @@ builder.Logging.SetMinimumLevel(LogLevel.Information);
 // ------------------------
 builder.Services.Configure<JwtSettings>(configuration.GetSection("TaskMangementSettings:Jwt"));
 builder.Services.Configure<CognitoSettings>(configuration.GetSection("TaskMangementSettings:Cognito"));
-
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 var jwtSettings = configuration.GetSection("TaskMangementSettings:Jwt").Get<JwtSettings>();
 
 // ------------------------
@@ -44,7 +46,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = true,
             ValidIssuer = jwtSettings.ValidIssuer,
             ValidateAudience = jwtSettings.ValidateAudience,
-            ValidateLifetime = true
+            ValidateLifetime = true,
+            RoleClaimType = "cognito:groups"
         };
     });
 

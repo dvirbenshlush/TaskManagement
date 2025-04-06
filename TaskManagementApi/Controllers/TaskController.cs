@@ -2,14 +2,12 @@
 using TaskManagementApi.Models;
 using TaskManagementApi.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TaskManagementApi.Controllers;
 
 [ApiController]
-[Authorize]
 [Route("api/[controller]")]
+[Authorize(Roles = "Admin")]
 public class TaskController : ControllerBase
 {
     private readonly ITaskService _taskService;
@@ -54,6 +52,7 @@ public class TaskController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(int id, TaskItem task)
     {
         if (id != task.Id)
@@ -74,18 +73,19 @@ public class TaskController : ControllerBase
         return NoContent();
     }
 
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
-    {
-        _logger.LogInformation("Deleting task with ID {Id}", id);
-        var deleted = await _taskService.DeleteAsync(id);
-        if (!deleted)
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Delete(int id)
         {
-            _logger.LogWarning("Task delete failed – task ID {Id} not found", id);
-            return NotFound();
-        }
+            _logger.LogInformation("Deleting task with ID {Id}", id);
+            var deleted = await _taskService.DeleteAsync(id);
+            if (!deleted)
+            {
+                _logger.LogWarning("Task delete failed – task ID {Id} not found", id);
+                return NotFound();
+            }
 
-        _logger.LogInformation("Task with ID {Id} deleted successfully", id);
-        return NoContent();
-    }
+            _logger.LogInformation("Task with ID {Id} deleted successfully", id);
+            return NoContent();
+        }
 }

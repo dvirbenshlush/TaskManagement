@@ -2,14 +2,12 @@
 using TaskManagementApi.Models;
 using TaskManagementApi.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace TaskManagementApi.Controllers;
 
-[Authorize]
 [ApiController]
 [Route("api/[controller]")]
+
 public class ProjectController : ControllerBase
 {
     private readonly IProjectService _projectService;
@@ -54,6 +52,7 @@ public class ProjectController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Update(int id, Project project)
     {
         if (id != project.Id)
@@ -75,6 +74,7 @@ public class ProjectController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         _logger.LogInformation("Deleting project with ID {Id}", id);
